@@ -45,7 +45,8 @@ describe('chatterbox', function() {
 
         app.send(message);
         ajaxOptions = typeof $.ajax.args[0][0] === 'object' ? $.ajax.args[0][0] : $.ajax.args[0][1];
-        var result = JSON.parse(ajaxOptions.data);
+//        var result = JSON.parse(ajaxOptions.data);
+        var result = ajaxOptions.data;
         expect(result).to.deep.equal(message);
         done();
       });
