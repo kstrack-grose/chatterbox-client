@@ -8,13 +8,23 @@
     <!-- dependencies -->
     <script src="bower_components/jquery/jquery.min.js"></script>
     <!-- your scripts -->
+    <script src="bower_components/underscore/underscore-min.js"></script>
     <script src="env/config.js"></script>
     <script src="scripts/app.js"></script>
   </head>
   <body>
     <div id="main">
       <h1>chatterbox</h1>
-      <!-- Your HTML goes here! -->
+      <!-- Your HTML goes here! 
+      needs: viewing screen, input screen & button, refresh somehow
+      -->
+      <select name="rooms">
+      </select>
+      <div class="chat">
+        <!--add messages-->
+      </div>
+      <input class="message" type="text" name="message" placeholder="your message here">
+      <input type="submit">
     </div>
   </body>
 </html>
