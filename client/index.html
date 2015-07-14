@@ -15,16 +15,17 @@
   <body>
     <div id="main">
       <h1>chatterbox</h1>
-      <!-- Your HTML goes here! 
-      needs: viewing screen, input screen & button, refresh somehow
-      -->
-      <select name="rooms">
-      </select>
-      <div class="chat">
-        <!--add messages-->
+      <div class="spinner"><img src="client/images/spiffygif_46x46.gif"></div>
+      <div id="rooms">
+        Room:
+        <select id="roomSelect">
+        </select>
       </div>
-      <input class="message" type="text" name="message" placeholder="your message here">
-      <input type="submit">
+      <form action="#" id="send" method="post">
+        <input type="text" name="message" id="message"/>
+        <input type="submit" name="submit" class="submit"/>
+      </form>
+      <div id="chats"></div>
     </div>
   </body>
 </html>
