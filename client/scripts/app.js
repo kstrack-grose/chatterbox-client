@@ -35,7 +35,9 @@ app.fetch = function() {
     success: function(data) {
       var allMessages = data.results;
       for(var i = 0; i < allMessages.length; i++){
-        app.addMessage(allMessages[i]);
+        console.log(allMessages[i]);
+        var currMessage = JSON.stringify(allMessages[i]);
+        app.addMessage(currMessage);
       }
       // console.log('message retrieved:' + data.results);
     },
@@ -68,7 +70,10 @@ app.clearMessages = function() {
 };
 // add messages to the DOM
 app.addMessage = function(message) {
-  var newMessage = "<div class='message'><span class='clickMe'><button class='username'>" + message.username + "</button></span><span class='text'>" + message.text + "</span></div>";
+  var messageObject = JSON.parse(message);
+  var text = JSON.stringify(messageObject.text);
+  var username = JSON.stringify(messageObject.username);
+  var newMessage = "<div class='message'><span class='clickMe'><button class='username'>" + username + "</button></span><span class='text'>" + text + "</span></div>";
   $("#chats").append(newMessage);
 };
 // add rooms to select menu
@@ -90,7 +95,6 @@ app.handleSubmit = function(text){
   //   type: "GET",
   //   data: username
   // });
-  // debugger;
   var username = "HR30";
   //get room
   var room = "lobby";
@@ -108,7 +112,7 @@ app.handleSubmit = function(text){
 $(document).ready(function() {
 
   app.addRoom("lobby");
-  app.addMessage({username: "jk", text: "helloworld", room: "lobby"});
+//  app.addMessage("{username: "jk", text: "helloworld", room: "lobby"}");
 
   $("#main").click(".username", function() {
     app.addFriend($(".username").text());
@@ -117,12 +121,14 @@ $(document).ready(function() {
   $('#send .submit').on("click", function(event) {
     event.preventDefault();
     var messageData = $("#message").serialize();
-    var text = messageData.slice(8);
+//    var text = messageData.slice(8);
+    $('#message').value = '';
     app.handleSubmit(text);
   });
 
-  $("button.update").click(function() {
+  $("button").click(".update", function() {
     //introduce something to refresh the page, getting info from the API
+    app.fetch();
   });
 
 }); //end document.ready
