@@ -41,7 +41,7 @@ app.clearMessages = function() {
 };
 // add messages to the DOM
 app.addMessage = function(message) {
-  var newMessage = "<div class='message'><span><button class='username'>" + message.username + "</button></span><span class='text'>" + message.text + "</span></div>";
+  var newMessage = "<div class='message'><span class='clickMe'><button class='username'>" + message.username + "</button></span><span class='text'>" + message.text + "</span></div>";
   $("#chats").append(newMessage);
 };
 // add rooms to select menu
@@ -53,17 +53,28 @@ app.addRoom = function(roomName) {
 /////// EVENTS METHODS ///////////
 // add a friend by clicking their username
 app.addFriend = function(friendName) {
-  user.friends.push(friendName);
+  app.user.friends.push(friendName);
 };
 
-
+app.handleSubmit = function(){
+  console.log("submit " + arguments);
+};
 
 //JQUERY
-$("document").ready(function() {
-  $(".username").on("click", function() {
-    app.addFriend(this.text);
+
+$(document).ready(function() {
+
+//  app.addRoom("lobby");
+//  app.addMessage({username: "jk", text: "helloworld", room: "lobby"});
+
+  $("#main").click(".username", function() {
+    app.addFriend($(".username").text());
   });
 
+  $('#send .submit').on("submit", function(event) {
+    event.preventDefault();
+    app.handleSubmit();
+  });
 
 }); //end document.ready
 
