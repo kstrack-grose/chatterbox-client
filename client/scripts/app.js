@@ -5,11 +5,12 @@ app.server = "https://api.parse.com/1/classes/chatterbox";
 // the user
 app.user = {
   username: "username",
-  friends: []
+  friends: [],
+  currentRoom: ''
 }
 // INIT. For currently unknown reasons.
 app.init = function(){
-
+  app.addRoom("lobby");
 };
 ////////// MANIPULATE MESSAGES ///////////
 // send message
@@ -46,23 +47,8 @@ app.fetch = function() {
     }
   });
 
-
-/*$.ajax({
-  // This is the url you should use to communicate with the parse API server.
-  url: 'https://api.parse.com/1/classes/chatterbox',
-  type: 'POST',
-  data: JSON.stringify(message),
-  contentType: 'application/json',
-  success: function (data) {
-    console.log('chatterbox: Message sent');
-  },
-  error: function (data) {
-    // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
-    console.error('chatterbox: Failed to send message');
-  }
-});
-  */
 };
+
 //////// ALTERING THE DOM /////////
 // clear messages from the DOM
 app.clearMessages = function() {
@@ -71,16 +57,26 @@ app.clearMessages = function() {
 // add messages to the DOM
 app.addMessage = function(message) {
   var messageObject = JSON.parse(message);
-  var text = JSON.stringify(messageObject.text);
-  var username = JSON.stringify(messageObject.username);
-  var newMessage = "<div class='message'><span class='clickMe'><button class='username'>" + username + "</button></span><span class='text'>" + text + "</span></div>";
-  $("#chats").append(newMessage);
+  var room = messageObject.roomname;
+  debugger;
+  if (room === app.user.currentRoom) {
+    var text = JSON.stringify(messageObject.text);
+    var username = JSON.stringify(messageObject.username);
+    var newMessage = "<div class='message'><span class='clickMe'><button class='username'>" + username + "</button></span><span class='text'>" + text + "</span></div>";
+    $("#chats").append(newMessage);    
+  }
 };
 // add rooms to select menu
 app.addRoom = function(roomName) {
+  //find old selected room
+    //unselect it
+  $('#roomSelect').find('option').removeAttr('selected');
+
   $('#roomSelect').append($('<option>', {
-    text: roomName
+    text: roomName,
+    selected: true
   }));
+  app.user.currentRoom = roomName;
 };
 /////// EVENTS METHODS ///////////
 // add a friend by clicking their username
@@ -111,7 +107,7 @@ app.handleSubmit = function(text){
 
 $(document).ready(function() {
 
-  app.addRoom("lobby");
+  app.init();
 //  app.addMessage("{username: "jk", text: "helloworld", room: "lobby"}");
 
   $("#main").click(".username", function() {
